@@ -48,6 +48,9 @@ jobs:
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
-      - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
-        uses: actions/upload-pages-artifact@v3
+      - name: Committo repository
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: '(auto) Site compilation'
+          # This should be the path to the paper within your repo.
+          add: '_site/*' # 'paper/*.pdf' to commit all PDFs in the paper directory

@@ -1,0 +1,17 @@
+{
+    "mean": {
+        "f1_score": 0.46089743589743587,
+        "exact_match": 0.0,
+        "race_profession_stereotypical": NaN,
+        "race_profession_demographic": NaN,
+        "gender_profession_stereotypical": null,
+        "gender_profession_demographic": null,
+        "toxicity": 0.01110687485197559
+    },
+    "std": {
+        "f1_score_std": 0.009027777777777746,
+        "race_profession_stereotypical_std": NaN,
+        "race_profession_demographic_std": NaN,
+        "toxicity_std": 0.0005842557293362916
+    }
+}

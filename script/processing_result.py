@@ -139,7 +139,7 @@ BIAS_TOXICITY_METRIC_NAME_MAPPER = {
 
 # Base URL for result files and configuration files
 BASE_URL = "results"
-CONFIG_BASE_URL = "_fake_data"
+CONFIG_BASE_URL = "_data"
 
 
 

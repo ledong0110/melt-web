@@ -8,7 +8,6 @@ name: Deploy Jekyll site to Pages
 
 on:
   # Runs on pushes targeting the default branch
-  on:
   workflow_run:
     workflows: [Update Results]
     types:

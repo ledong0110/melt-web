@@ -1,0 +1,24 @@
+{
+    "mean": {
+        "accuracy": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 0.5,
+        "max_probs": 0.5,
+        "ece_10_bin": 0.5,
+        "ece_1_bin": 0.5,
+        "coverage_acc_area": 1.0,
+        "acc_top_10_percentile": 1.0,
+        "platt_ece_10_bin": 0.0,
+        "platt_ece_1_bin": 0.0
+    },
+    "std": {
+        "accuracy_std": 0.0,
+        "f1_score_std": 0.0,
+        "roc_auc_std": 0.0,
+        "max_probs_std": 0.0,
+        "ece_10_bin_std": 0.0,
+        "ece_1_bin_std": 0.0,
+        "coverage_acc_area_std": 0.0,
+        "acc_top_10_percentile_std": 0.0
+    }
+}

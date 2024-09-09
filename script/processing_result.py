@@ -1,18 +1,21 @@
 import os
 import json
 import yaml
+import collections
 import re
+import subprocess
 
 # Task Name Mapper
 TASK_NAME_MAPPER = {
-    "question_answering": "Question Answering",
+    "question-answering": "Question Answering",
     "summarization": "Summarization",
-    "sentiment_analysis": "Sentiment Analysis",
-    "text_classification": "Text Classification",
-    "knowledge": "Knowledge",
-    "toxicity_detection": "Toxicity Detection",
-    "information_retrieval": "Information Retrieval",
-    "language_modeling": "Language Modeling",
+    "sentiment-analysis": "Sentiment Analysis",
+    "text-classification": "Text Classification",
+    "knowledge-openended": "Knowledge",
+    "knowledge-mtpchoice": "Knowledge",
+    "toxicity-detection": "Toxicity Detection",
+    "information-retrieval": "Information Retrieval",
+    "language-modeling": "Language Modeling",
     "reasoning": "Reasoning",
     "translation": "Translation",
 }
@@ -29,26 +32,96 @@ CATEGORY_NAME_MAPPER = {
     "randomized-choice": "randomized-choice",
 }
 
+SUMMARIZATION_METRIC_NAME_MAPPER = {
+    "rouge1": "R1",
+    "rouge1_std": "R1_std",
+    "rouge2": "R2",
+    "rouge2_std": "R2_std",
+    "rougeL": "RL",
+    "rougeL_std": "RL_std",
+    "SummaC": "SC",
+    "SummaC_std": "SC_std",
+    "BERTScore-F1": "BS",
+    "BERTScore-F1_std": "BS_std",
+    "coverage": "Cv",
+    "coverage_std": "Cv_std",
+    "density": "De",
+    "density_std": "De_std",
+    "compression": "Cp",
+    "compression_std": "Cp_std",
+}
+CLASSIFICATION_METRIC_NAME_MAPPER = {
+    "accuracy": "AC",
+    "accuracy_std": "AC_std",
+    "f1_score": "F1",
+    "f1_score_std": "F1_std",
+    "roc_auc": "AR",
+    "roc_auc_std": "AR_std",
+    "ece_10_bin": "ECE", 
+    "ece_10_bin_std": "ECE_std",
+    "acc_top_10_percentile": "A@10",
+    "acc_top_10_percentile_std": "A@10_std",
+}
+LANGUAGE_MODELING_METRIC_NAME_MAPPER = {
+    "average_exact_match": "EM",
+    "average_exact_match_std": "EM_std",
+    "cer": "CER",
+    "cer_std": "CER_std",
+    "wer": "WER",
+    "wer_std": "WER_std",
+    "ced": "CED",
+    "ced_std": "CED_std",
+    "wed": "WED",
+    "wed_std": "WED_std",
+    "perplexity": "PLX",
+    "perplexity_std": "PLX_std",
+}
+TRANSLATION_METRIC_NAME_MAPPER = {
+    "bleu": "BLEU",
+    "bleu_std": "BLEU_std",
+    "hLepor": "hLEPOR",
+    "hLepor_std": "hLEPOR_std",
+}
+GENERATION_METRIC_NAME_MAPPER = {
+    "exact_match": "EM",
+    "exact_match_std": "EM_std",
+    "f1_score": "F1",
+    "f1_score_std": "F1_std",
+}
+REASONING_MATH_METRIC_NAME_MAPPER = {
+    "exact_match": "EM",
+    "exact_match_std": "EM_std",
+    "f1_score": "F1",
+    "f1_score_std": "F1_std",
+    "equality": "Equ",
+    "equality_std": "Equ_std",
+}
+INFORMATION_RETRIEVAL_METRIC_NAME_MAPPER = {
+    "regular_mrr@10": "M@10",
+    "regular_mrr@10_std": "M@10_std",
+    "regular_ndcg@10": "N@10",
+    "regular_ndcg@10_std": "N@10_std",
+    "boosted_mrr@10": "M@10B",
+    "boosted_mrr@10_std": "M@10B_std",
+    "boosted_ndcg@10": "N@10B",
+    "boosted_ndcg@10_std": "N@10B_std",
+}
+
 METRIC_NAME_MAPPER = {
-    "Summarization": {
-        "rouge1": "R1",
-        "rouge1_std": "R1_std",
-        "rouge2": "R2",
-        "rouge2_std": "R2_std",
-        "rougeL": "RL",
-        "rougeL_std": "RL_std",
-        "SummaC": "SC",
-        "SummaC_std": "SC_std",
-        "BERTScore-F1": "BS",
-        "BERTScore-F1_std": "BS_std",
-        "coverage": "Cv",
-        "coverage_std": "Cv_std",
-        "density": "De",
-        "density_std": "De_std",
-        "compression": "Cp",
-        "compression_std": "Cp_std",
+    "Question Answering": GENERATION_METRIC_NAME_MAPPER,
+    "Summarization": SUMMARIZATION_METRIC_NAME_MAPPER,
+    "Sentiment Analysis": CLASSIFICATION_METRIC_NAME_MAPPER,
+    "Text Classification": CLASSIFICATION_METRIC_NAME_MAPPER,
+    "Knowledge": {
+        "knowledge-openended": GENERATION_METRIC_NAME_MAPPER,
+        "knowledge-mtpchoice": CLASSIFICATION_METRIC_NAME_MAPPER
     },
-    # ... Other tasks mapping
+    "Toxicity Detection": CLASSIFICATION_METRIC_NAME_MAPPER,
+    "Information Retrieval": INFORMATION_RETRIEVAL_METRIC_NAME_MAPPER,
+    "Language Modeling": LANGUAGE_MODELING_METRIC_NAME_MAPPER,
+    "Reasoning": REASONING_MATH_METRIC_NAME_MAPPER,
+    "Translation": TRANSLATION_METRIC_NAME_MAPPER,
+    
 }
 
 BIAS_TOXICITY_METRIC_NAME_MAPPER = {
@@ -66,8 +139,22 @@ BIAS_TOXICITY_METRIC_NAME_MAPPER = {
 
 # Base URL for result files and configuration files
 BASE_URL = "results"
-CONFIG_BASE_URL = "_data"
+CONFIG_BASE_URL = "_fake_data"
 
+
+
+def deep_update(source, overrides):
+    """
+    Update a nested dictionary or similar mapping.
+    Modify ``source`` in place.
+    """
+    for key, value in overrides.items():
+        if isinstance(value, collections.abc.Mapping) and value:
+            returned = deep_update(source.get(key, {}), value)
+            source[key] = returned
+        else:
+            source[key] = overrides[key]
+    return source
 
 def update_yaml(file_path, new_data):
     """Updates a YAML file with new data."""
@@ -101,13 +188,22 @@ def get_categories(prompt_type, category_from_filename, task):
 
 def process_json_file(json_file):
     """Processes a JSON result file and updates the other YAML files."""
+    # Check if the file is new or modified using Git
+    try:
+        git_status = subprocess.check_output(["git", "status", "--porcelain", os.path.join(BASE_URL, json_file)])
+        git_status = git_status.decode("utf-8").strip()
+        if not git_status:  # File is not new or modified
+            return
+    except subprocess.CalledProcessError:
+        print(f"WARNING: Unable to get Git status for {json_file}. Processing anyway.")
+
 
     # Extract information from the file name
     file_name = os.path.basename(json_file).replace(".json", "")
     parts = file_name.split("_")
     (
         language,
-        task,
+        task_name,
         dataset,
         model,
         prompt_type,
@@ -128,7 +224,7 @@ def process_json_file(json_file):
     )
 
     # Map task name to the standard format
-    task = TASK_NAME_MAPPER.get(task, task)
+    task = TASK_NAME_MAPPER.get(task_name, task_name)
 
     # Determine the correct categories
     categories = get_categories(prompt_type, category_from_filename, task)
@@ -139,7 +235,7 @@ def process_json_file(json_file):
 
     # Restructure result_data and map metric names
     bias_toxicity_data = {dataset: {model: {}}}
-    main_result_data = {dataset: {model: {}}}
+    main_result_data = {dataset: {model: {}}} if task_name != "knowledge-openended" else {dataset: {"num_fields": 2, model: {}}} # This code line may not be optimal, please try to improve in the future
 
     for metric_type in ["mean", "std"]:
         for metric_name, value in result_data[metric_type].items():
@@ -150,9 +246,14 @@ def process_json_file(json_file):
                 )
             else:
                 if task in METRIC_NAME_MAPPER:
-                    if metric_name not in METRIC_NAME_MAPPER[task]:
-                        continue
-                    new_metric_name = METRIC_NAME_MAPPER[task][metric_name]
+                    if task == "Knowledge":
+                        if metric_name not in METRIC_NAME_MAPPER[task][task_name]:
+                            continue
+                        new_metric_name = METRIC_NAME_MAPPER[task][task_name][metric_name]
+                    else:
+                        if metric_name not in METRIC_NAME_MAPPER[task]:
+                            continue
+                        new_metric_name = METRIC_NAME_MAPPER[task][metric_name]
                 else:
                     raise ValueError("Not Found")
 
@@ -168,7 +269,7 @@ def process_json_file(json_file):
 
     # 1. Update leaderboard YAML file(s)
     for category in categories:
-        leaderboard_dir = os.path.join("leaderboard", language, category)
+        leaderboard_dir = os.path.join(CONFIG_BASE_URL, "leaderboard", language, category)
         os.makedirs(leaderboard_dir, exist_ok=True)
 
         # Use the appropriate data based on the category
@@ -183,23 +284,27 @@ def process_json_file(json_file):
                 leaderboard_data = yaml.safe_load(f) or {}
         except FileNotFoundError:
             leaderboard_data = {}
-
-        leaderboard_data.update(data_to_update)
+        deep_update(leaderboard_data, data_to_update)
         update_yaml(yaml_file, leaderboard_data)
 
     # 2. Update models.yml
     models_file = os.path.join(CONFIG_BASE_URL, "leaderboard", language, "models.yml")
-    with open(models_file, "r") as f:
-        models_data = yaml.safe_load(f)
+    try:
+        with open(models_file, "r") as f:
+            models_data = yaml.safe_load(f) or {"models": []}
+    except FileNotFoundError:
+        models_data = {"models": []}
     if model not in models_data["models"]:
         models_data["models"].append(model)
         with open(models_file, "w") as f:
             yaml.dump(models_data, f, indent=2)
     # 3. Update lang_tasks.yml
-    lang_tasks_file = os.path.join(CONFIG_BASE_URL, "lang_tasks.yml")
-    with open(lang_tasks_file, "r") as f:
-        lang_tasks_data = yaml.safe_load(f)
-
+    try:
+        lang_tasks_file = os.path.join(CONFIG_BASE_URL, "lang_tasks.yml")
+        with open(lang_tasks_file, "r") as f:
+            lang_tasks_data = yaml.safe_load(f) or {}
+    except FileNotFoundError:
+        lang_tasks_data = {}
     if language not in lang_tasks_data:
         lang_tasks_data[language] = {}
     if task not in lang_tasks_data[language]:

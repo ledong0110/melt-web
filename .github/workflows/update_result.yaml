@@ -25,8 +25,9 @@ jobs:
       - name: Run processing script
         run: python script/processing_result.py
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Committo repository
+        uses: EndBug/add-and-commit@v9
         with:
-          commit_message: 'Update YAML results'
-          file_pattern: '_data/*.yml leaderboard/**/*.yml'
+          message: 'Update yaml results'
+          # This should be the path to the paper within your repo.
+          add: '_data/*' 

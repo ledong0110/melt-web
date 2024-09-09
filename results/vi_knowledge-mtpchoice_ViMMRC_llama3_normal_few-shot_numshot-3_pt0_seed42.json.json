@@ -3,7 +3,7 @@
         "accuracy": 0.75,
         "f1_score": 0.5972222222222222,
         "roc_auc": 0.5,
-        "max_probs": 0.25,
+        "max_probs": 0.2,
         "ece_10_bin": 0.5,
         "ece_1_bin": 0.5,
         "coverage_acc_area": 0.9300595238095238,

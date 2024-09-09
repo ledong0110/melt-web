@@ -1,277 +1,275 @@
-vi:
-  "Question Answering":
-    zero-shot: true
-    few-shot: false
-    weaker-prompt: true
-    medium-prompt: true
-    fairness-aware: true
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: true
-  "Summarization":
-    zero-shot: true
-    few-shot: false
-    weaker-prompt: true
-    medium-prompt: true
-    fairness-aware: false
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: true
-  "Sentiment Analysis":
-    zero-shot: true
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: true
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Text Classification":
-    zero-shot: true
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: true
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Knowledge":
-    zero-shot: true
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: true
-    bias-toxicity: false
-  "Toxicity Detection":
-    zero-shot: true
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: true
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Information Retrieval":
-    zero-shot: true
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: true
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Language Modeling":
-    zero-shot: true
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: true
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Reasoning":
-    zero-shot: true
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: true
-    randomized-choice: false
-    bias-toxicity: false
-  "Translation":
-    zero-shot: false
-    few-shot: true
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: true
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: true
-
 ind:
-  "Question Answering":
-    zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Information Retrieval:
     bias-toxicity: false
-  "Summarization":
-    zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
     chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Sentiment Analysis":
-    zero-shot: false
-    few-shot: false
-    weaker-prompt: false
     fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Text Classification":
-    zero-shot: false
     few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
     randomized-choice: false
-    bias-toxicity: false
-  "Knowledge":
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Knowledge:
     bias-toxicity: false
-  "Toxicity Detection":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Language Modeling:
     bias-toxicity: false
-  "Information Retrieval":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Question Answering:
     bias-toxicity: false
-  "Language Modeling":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Reasoning:
     bias-toxicity: false
-  "Reasoning":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Sentiment Analysis:
     bias-toxicity: false
-  "Translation":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Summarization:
     bias-toxicity: false
-
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: true
+  Text Classification:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: false
+  Toxicity Detection:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: false
+  Translation:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: false
 kr:
-  "Question Answering":
-    zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Information Retrieval:
     bias-toxicity: false
-  "Summarization":
-    zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
     chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Sentiment Analysis":
-    zero-shot: false
-    few-shot: false
-    weaker-prompt: false
     fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
-    bias-toxicity: false
-  "Text Classification":
-    zero-shot: false
     few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
     randomized-choice: false
-    bias-toxicity: false
-  "Knowledge":
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Knowledge:
     bias-toxicity: false
-  "Toxicity Detection":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Language Modeling:
     bias-toxicity: false
-  "Information Retrieval":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Question Answering:
     bias-toxicity: false
-  "Language Modeling":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Reasoning:
     bias-toxicity: false
-  "Reasoning":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Sentiment Analysis:
     bias-toxicity: false
-  "Translation":
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
     zero-shot: false
-    few-shot: false
-    weaker-prompt: false
-    fairness-aware: false
-    robustness-aware: false
-    chain-of-thought: false
-    randomized-choice: false
+  Summarization:
     bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: false
+  Text Classification:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: false
+  Toxicity Detection:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: false
+  Translation:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: false
+vi:
+  Information Retrieval:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: true
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: true
+    weaker-prompt: false
+    zero-shot: true
+  Knowledge:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: true
+    randomized-choice: true
+    robustness-aware: true
+    weaker-prompt: false
+    zero-shot: true
+  Language Modeling:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: true
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: true
+  Question Answering:
+    bias-toxicity: true
+    chain-of-thought: false
+    fairness-aware: true
+    few-shot: false
+    medium-prompt: true
+    randomized-choice: false
+    robustness-aware: true
+    weaker-prompt: true
+    zero-shot: true
+  Reasoning:
+    bias-toxicity: false
+    chain-of-thought: true
+    fairness-aware: false
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: false
+    weaker-prompt: false
+    zero-shot: true
+  Sentiment Analysis:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: true
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: true
+    weaker-prompt: false
+    zero-shot: true
+  Summarization:
+    bias-toxicity: true
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: false
+    medium-prompt: true
+    randomized-choice: false
+    robustness-aware: true
+    weaker-prompt: true
+    zero-shot: true
+  Text Classification:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: true
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: true
+    weaker-prompt: false
+    zero-shot: true
+  Toxicity Detection:
+    bias-toxicity: false
+    chain-of-thought: false
+    fairness-aware: true
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: true
+    weaker-prompt: false
+    zero-shot: true
+  Translation:
+    bias-toxicity: true
+    chain-of-thought: false
+    fairness-aware: false
+    few-shot: true
+    randomized-choice: false
+    robustness-aware: true
+    weaker-prompt: false
+    zero-shot: false

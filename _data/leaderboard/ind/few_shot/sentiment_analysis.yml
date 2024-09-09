@@ -1,0 +1,12 @@
+indo-sentiment:
+  llama3:
+    A@10: 1.0
+    A@10_std: 0.0
+    AC: 1.0
+    AC_std: 0.0
+    AR: 0.5
+    AR_std: 0.0
+    ECE: 0.5
+    ECE_std: 0.0
+    F1: 1.0
+    F1_std: 0.0

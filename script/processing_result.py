@@ -5,6 +5,26 @@ import collections
 import re
 import subprocess
 
+
+ALLOWED_TASKS_PER_CATEGORY = {
+    "zero_shot": ["Question Answering", "Summarization", "Sentiment Analysis", 
+                 "Text Classification", "Knowledge", "Toxicity Detection", 
+                 "Information Retrieval", "Language Modeling", "Reasoning"], 
+    "few_shot": ["Sentiment Analysis", "Text Classification", "Knowledge", 
+                "Toxicity Detection", "Information Retrieval", "Language Modeling", 
+                "Reasoning", "Translation"],
+    "weaker_prompt": ["Question Answering", "Summarization"],
+    "medium_prompt": ["Question Answering", "Summarization"],
+    "fairness_aware": ["Question Answering", "Sentiment Analysis", "Text Classification",
+                        "Toxicity Detection", "Information Retrieval", "Language Modeling"],
+    "robustness_aware": ["Question Answering", "Summarization", "Sentiment Analysis",
+                        "Text Classification", "Knowledge", "Toxicity Detection",
+                        "Information Retrieval", "Language Modeling", "Translation"],
+    "chain_of_thought": ["Reasoning"],
+    "randomized_choice": ["Knowledge"],
+    "bias_toxicity": ["Question Answering", "Summarization", "Translation"]
+}
+
 # Task Name Mapper
 TASK_NAME_MAPPER = {
     "question-answering": "Question Answering",
@@ -22,14 +42,14 @@ TASK_NAME_MAPPER = {
 
 # Category Name Mapper
 CATEGORY_NAME_MAPPER = {
-    "zero-shot": "zero-shot",
-    "few-shot": "few-shot",
-    "weaker": "weaker-prompt",
-    "medium": "medium-prompt",
-    "fairness-aware": "fairness-aware",
-    "robustness-aware": "robustness-aware",
-    "chain-of-thought": "chain-of-thought",
-    "randomized-choice": "randomized-choice",
+    "zero-shot": "zero_shot",
+    "few-shot": "few_shot",
+    "weaker": "weaker_prompt",
+    "medium": "medium_prompt",
+    "fairness-aware": "fairness_aware",
+    "robustness-aware": "robustness_aware",
+    "chain-of-thought": "chain-_of_thought",
+    "randomized-choice": "randomized_choice",
 }
 
 SUMMARIZATION_METRIC_NAME_MAPPER = {
@@ -182,20 +202,23 @@ def get_categories(prompt_type, category_from_filename, task):
         and category_from_filename == "zero-shot"
         and task in ["Summarization", "Question Answering", "Translation"]
     ):
-        categories.append("bias-toxicity")
+        categories.append("bias_toxicity")
     return categories
 
+def is_task_allowed_in_category(task, category):
+    """Checks if the task is allowed in the given category."""
+    return task in ALLOWED_TASKS_PER_CATEGORY.get(category, [])
 
 def process_json_file(json_file):
     """Processes a JSON result file and updates the other YAML files."""
     # Check if the file is new or modified using Git
-    try:
-        git_status = subprocess.check_output(["git", "status", "--porcelain", os.path.join(BASE_URL, json_file)])
-        git_status = git_status.decode("utf-8").strip()
-        if not git_status:  # File is not new or modified
-            return
-    except subprocess.CalledProcessError:
-        print(f"WARNING: Unable to get Git status for {json_file}. Processing anyway.")
+    # try:
+    #     git_status = subprocess.check_output(["git", "status", "--porcelain", os.path.join(BASE_URL, json_file)])
+    #     git_status = git_status.decode("utf-8").strip()
+    #     if not git_status:  # File is not new or modified
+    #         return
+    # except subprocess.CalledProcessError:
+    #     print(f"WARNING: Unable to get Git status for {json_file}. Processing anyway.")
 
 
     # Extract information from the file name
@@ -228,7 +251,11 @@ def process_json_file(json_file):
 
     # Determine the correct categories
     categories = get_categories(prompt_type, category_from_filename, task)
-
+    if not is_task_allowed_in_category(task, categories[0]):
+        print(
+            f"WARNING: Task '{task}' is not allowed in category '{categories[0]}'. Skipping file: {json_file}"
+        )
+        return
     # Load JSON data
     with open(os.path.join(BASE_URL, json_file), "r") as f:
         result_data = json.load(f)  # Load JSON data
@@ -273,12 +300,12 @@ def process_json_file(json_file):
         os.makedirs(leaderboard_dir, exist_ok=True)
 
         # Use the appropriate data based on the category
-        if category == "bias-toxicity":
+        if category == "bias_toxicity":
             data_to_update = bias_toxicity_data
         else:
             data_to_update = main_result_data
-
-        yaml_file = os.path.join(leaderboard_dir, f"{task.lower()}.yml")
+        save_n = task.lower().replace(" ", "_")
+        yaml_file = os.path.join(leaderboard_dir, f"{save_n}.yml")
         try:
             with open(yaml_file, "r") as f:
                 leaderboard_data = yaml.safe_load(f) or {}
@@ -310,7 +337,7 @@ def process_json_file(json_file):
     if task not in lang_tasks_data[language]:
         lang_tasks_data[language][task] = {}
     for category in categories:
-        lang_tasks_data[language][task][category] = True
+        lang_tasks_data[language][task][category_from_filename] = True
 
     with open(lang_tasks_file, "w") as f:
         yaml.dump(lang_tasks_data, f, indent=2)

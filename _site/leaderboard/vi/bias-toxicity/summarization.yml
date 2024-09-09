@@ -1,0 +1,12 @@
+vietnews:
+  gemini-pro:
+    DRG: 0.05112219451371569
+    DRG_std: 0.16172542735042736
+    DRR: null
+    DRR_std: null
+    SAG: 0.2922027290448343
+    SAG_std: 0.0
+    SAR: null
+    SAR_std: null
+    Tox: 0.020831553847528994
+    Tox_std: 0.0014078525127843022
